@@ -3,10 +3,14 @@ import React from 'react';
 import classes from './Toolbar.module.css';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
+import ToggleButton from '../ToggleButton/ToggleButton';
 
 const toolbar = (props) => (
     <header className={classes.Toolbar}> 
-        <div>MENU</div>
+        <div 
+            onClick={props.clicked}
+            className={classes.MobileOnly}>MENU</div>
+        <ToggleButton />
         <div className={classes.Logo}>
             <Logo />
         </div>
