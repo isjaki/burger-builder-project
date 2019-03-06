@@ -1,0 +1,9 @@
+.ToggleButton {
+    cursor: pointer;
+}
+
+@media (min-width: 500px) {
+    .ToggleButton {
+        display: none;
+    }
+}
