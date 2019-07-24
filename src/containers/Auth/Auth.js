@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Input from '../../components/UI/Input/Input';
@@ -42,6 +43,12 @@ class Auth extends Component {
         },
         isSignup: true
     };
+
+    componentDidMount() {
+        if (!this.props.buildingBurger && this.props.authRedirectPath !== '/') {
+            this.props.onSetAuthRedirectPath();
+        }
+    }
 
     checkValidity(value, rules) {
         let isValid = true;
@@ -104,6 +111,10 @@ class Auth extends Component {
     }
 
     render() {
+        if (this.props.isAuthenticated) {
+            return <Redirect to={this.props.authRedirectPath} />;
+        }
+        
         const formElementsArray = [];
 
         for (let key in this.state.controls) {
@@ -149,11 +160,15 @@ class Auth extends Component {
 
 const mapStateToProps = state => ({
     loading: state.authReducer.loading,
-    error: state.authReducer.error
+    error: state.authReducer.error,
+    isAuthenticated: state.authReducer.token !== null,
+    buildingBurger: state.burgerBuilderReducer.buildingBurger,
+    authRedirectPath: state.authReducer.authRedirectPath
 });
 
 const mapDispatchToProps = dispatch => ({
-    onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup))
+    onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
+    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);
