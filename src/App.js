@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { authCheckState } from './store/actions/index';
@@ -37,4 +37,4 @@ const mapDispatchToProps = dispatch => ({
   onAuthCheckState: () => dispatch(authCheckState())
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default withRouter(connect(null, mapDispatchToProps)(App));
